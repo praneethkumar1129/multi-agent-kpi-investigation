@@ -1,27 +1,47 @@
+from app.services.gemini_service import ask_gemini
+
+
 def report_agent(state):
 
     print("=" * 60)
     print("REPORT AGENT")
     print("=" * 60)
 
-    kpis = state["kpis"]
+    prompt = f"""
+Generate a professional Business Investigation Report.
 
-    state["report"] = f"""
-Business Investigation Report
+KPIs
 
-Total Revenue : {kpis['total_revenue']:.2f}
+{state["kpis"]}
 
-Total Orders : {kpis['total_orders']}
+Anomalies
 
-Total Quantity : {kpis['total_quantity']}
+{state["anomalies"]}
 
-Average Order Value : {kpis['average_order_value']:.2f}
+Root Causes
 
-Root Cause:
-{", ".join(state["root_causes"])}
+{state["root_causes"]}
 
-Recommendations:
-{", ".join(state["recommendations"])}
+Recommendations
+
+{state["recommendations"]}
+
+The report should include:
+
+1. Executive Summary
+2. KPI Summary
+3. Anomalies
+4. Root Causes
+5. Recommendations
+6. Conclusion
+
+Return plain text only.
 """
+
+    report = ask_gemini(prompt)
+
+    print(report)
+
+    state["report"] = report
 
     return state
