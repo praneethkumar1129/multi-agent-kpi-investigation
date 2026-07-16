@@ -4,18 +4,24 @@ def report_agent(state):
     print("REPORT AGENT")
     print("=" * 60)
 
-    state["report"] = """
+    kpis = state["kpis"]
+
+    state["report"] = f"""
 Business Investigation Report
 
-Revenue : 150000
+Total Revenue : {kpis['total_revenue']:.2f}
 
-Orders : 1000
+Total Orders : {kpis['total_orders']}
 
-Root Cause :
-Inventory shortage
+Total Quantity : {kpis['total_quantity']}
 
-Recommendation :
-Increase stock
+Average Order Value : {kpis['average_order_value']:.2f}
+
+Root Cause:
+{", ".join(state["root_causes"])}
+
+Recommendations:
+{", ".join(state["recommendations"])}
 """
 
     return state

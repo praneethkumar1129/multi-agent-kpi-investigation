@@ -17,3 +17,5 @@ google-cloud-aiplatform
 pydantic
 networkx
 scikit-learn
+google-cloud-bigquery
+google-genai
