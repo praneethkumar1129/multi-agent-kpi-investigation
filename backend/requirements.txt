@@ -1,0 +1,9 @@
+functions-framework
+google-cloud-storage
+google-cloud-bigquery
+google-cloud-bigquery-storage
+pandas
+numpy
+openpyxl
+pyarrow
+python-dotenv
