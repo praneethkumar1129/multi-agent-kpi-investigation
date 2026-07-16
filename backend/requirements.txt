@@ -7,3 +7,13 @@ numpy
 openpyxl
 pyarrow
 python-dotenv
+fastapi
+uvicorn
+langgraph
+langchain
+langchain-core
+langchain-google-vertexai
+google-cloud-aiplatform
+pydantic
+networkx
+scikit-learn
