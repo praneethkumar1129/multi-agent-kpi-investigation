@@ -10,15 +10,17 @@ def anomaly_agent(state):
     print("ANOMALY AGENT")
     print("=" * 60)
 
-    analytics = state.get("analytics", {})
+    memory = state["memory"]
+
+    analytics = memory["analytics"]
 
     prompt = f"""
 You are a Senior Business Intelligence Analyst.
 
-Dataset Type:
-{state["dataset_type"]}
 
-Business Analytics:
+
+Business Analytics
+
 {json.dumps(analytics, indent=2)}
 
 Your task:
@@ -47,7 +49,9 @@ Do not use markdown.
     response = ask_gemini(prompt)
 
     print(response)
-
+    state["memory"]["history"].append(
+    "Anomaly Agent completed."
+)
     try:
 
         match = re.search(r"\{.*\}", response, re.DOTALL)
@@ -57,6 +61,10 @@ Do not use markdown.
             data = json.loads(match.group())
 
             state["anomalies"] = data.get("anomalies", [])
+            if "memory" not in state:
+                state["memory"] = {}
+
+            state["memory"]["anomalies"] = state["anomalies"]
 
         else:
 

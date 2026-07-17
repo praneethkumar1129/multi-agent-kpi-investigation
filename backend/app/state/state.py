@@ -32,3 +32,7 @@ class AgentState(TypedDict):
     recommendations: list
 
     report: str
+
+    memory: dict
+
+    forecast: None | dict

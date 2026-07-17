@@ -9,21 +9,21 @@ def recommendation_agent(state):
     print("=" * 60)
     print("RECOMMENDATION AGENT")
     print("=" * 60)
-
+    memory = state["memory"]
     prompt = f"""
 You are an AI Business Consultant.
 
 KPIs
 
-{json.dumps(state["kpis"], indent=2)}
+{json.dumps(memory["kpis"], indent=2,default=str)}
 
 Anomalies
 
-{json.dumps(state["anomalies"], indent=2)}
+{json.dumps(memory["anomalies"], indent=2)}
 
 Root Causes
 
-{json.dumps(state["root_causes"], indent=2)}
+{json.dumps(memory["root_causes"], indent=2)}
 
 Suggest business recommendations.
 
@@ -43,7 +43,9 @@ Do not use markdown.
 """
 
     result = ask_gemini(prompt)
-
+    state["memory"]["history"].append(
+    "Recommendation Agent completed."
+)
     print(result)
 
     match = re.search(r"\{.*\}", result, re.DOTALL)
@@ -53,6 +55,10 @@ Do not use markdown.
         response = json.loads(match.group())
 
         state["recommendations"] = response.get("recommendations", [])
+        if "memory" not in state:
+            state["memory"] = {}
+
+        state["memory"]["recommendations"] = state["recommendations"]
 
     else:
 

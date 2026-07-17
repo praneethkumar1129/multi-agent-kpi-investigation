@@ -1,13 +1,26 @@
 from google.cloud import bigquery
 
-
 client = bigquery.Client()
 
 
-def execute_query(query):
+def get_table_schema(project_id: str, dataset: str, table: str):
+    """
+    Returns schema like:
+    {
+        "Order_ID": "STRING",
+        "Date": "DATE",
+        "Quantity": "INTEGER",
+        "Total_Revenue": "FLOAT"
+    }
+    """
 
-    job = client.query(query)
+    table_ref = f"{project_id}.{dataset}.{table}"
 
-    result = job.result()
+    table_obj = client.get_table(table_ref)
 
-    return [dict(row) for row in result]
+    schema = {}
+
+    for field in table_obj.schema:
+        schema[field.name] = field.field_type
+
+    return schema

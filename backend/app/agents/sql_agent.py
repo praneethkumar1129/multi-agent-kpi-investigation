@@ -1,5 +1,5 @@
 import re
-
+import json
 from app.services.gemini_service import ask_gemini
 from app.database.sql_executor import execute_sql
 
@@ -10,6 +10,7 @@ def sql_agent(state):
     print("=" * 60)
     print("SQL AGENT")
     print("=" * 60)
+    memory = state["memory"]
     project_id = state.get("project_id","multi-agent-kpi-investigation")
 
     dataset_id = state.get("dataset","business_data")
@@ -35,9 +36,15 @@ Table:
 User Question:
 {question}
 
+
+Supervisor Analysis:
+
+{json.dumps(memory["supervisor"], indent=2)}
+
+
 Database Schema:
 
-{state["dataframe_info"]}
+{memory.get("dataframe_info")}
 
 Rules:
 
@@ -65,11 +72,14 @@ Rules:
 
     state["generated_sql"] = sql
 
-    print("\nExecuting SQL...\n")
-    print(sql)
-
     result = execute_sql(sql)
 
     state["query_results"] = result
+
+    if "memory" not in state:
+        state["memory"] = {}
+
+    state["memory"]["generated_sql"] = sql
+    state["memory"]["query_results"] = result
 
     return state

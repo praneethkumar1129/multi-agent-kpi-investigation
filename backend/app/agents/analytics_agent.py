@@ -8,20 +8,20 @@ def analytics_agent(state):
     print("=" * 60)
     print("ANALYTICS AGENT")
     print("=" * 60)
-
+    memory = state["memory"]
     prompt = f"""
 You are a Senior Business Data Analyst.
 
 Dataset:
-{state["dataset_type"]}
+{memory["dataset_type"]}
 
-SQL Results:
+SQL Results
 
-{json.dumps(state["query_results"], indent=2)}
+{json.dumps(memory["query_results"], indent=2,default=str)}
 
-KPIs:
+KPIs
 
-{json.dumps(state["kpis"], indent=2)}
+{json.dumps(memory["kpis"], indent=2,default=str)}
 
 Analyze the business performance.
 
@@ -43,12 +43,16 @@ No markdown.
     try:
 
         result = ask_gemini(prompt)
-
+        state["memory"]["history"].append("Analytics Agent completed.")
         print(result)
 
         response = json.loads(result)
 
         state["analytics"] = response.get("analytics", [])
+        if "memory" not in state:
+            state["memory"] = {}
+
+        state["memory"]["analytics"] = state["analytics"]
 
     except Exception as e:
 
