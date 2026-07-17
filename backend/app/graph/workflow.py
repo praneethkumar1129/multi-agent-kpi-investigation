@@ -1,7 +1,7 @@
 from langgraph.graph import StateGraph, END
 
 from app.state.state import AgentState
-
+from app.agents.forecast_agent import forecast_agent
 from app.agents.data_collection_agent import data_collection_agent
 from app.agents.data_preprocessing_agent import data_preprocessing_agent
 from app.agents.supervisor_agent import supervisor_agent
@@ -37,7 +37,7 @@ workflow.add_node("Recommendation", recommendation_agent)
 workflow.add_node("Report", report_agent)
 workflow.add_node("Executive Summary", executive_summary_agent)
 workflow.add_node("Visualization", visualization_agent)
-
+workflow.add_node("Forecast", forecast_agent)
 # --------------------
 # Entry
 # --------------------
@@ -68,7 +68,8 @@ workflow.add_edge("RootCause", "Recommendation")
 
 workflow.add_edge("Recommendation", "Executive Summary")
 workflow.add_edge("Executive Summary", "Visualization")
-workflow.add_edge("Visualization", "Report")
+workflow.add_edge("Visualization", "Forecast")
+workflow.add_edge("Forecast", "Report")
 workflow.add_edge("Report", END)
 
 graph = workflow.compile()

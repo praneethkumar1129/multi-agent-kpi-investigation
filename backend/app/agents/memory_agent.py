@@ -25,7 +25,8 @@ def memory_agent(state):
         "recommendations": state.get("recommendations"),
         "report": state.get("report"),
         "preprocessing": state.get("preprocessing"),
-        "supervisor": state.get("supervisor")
+        "supervisor": state.get("supervisor"),
+        "forecast": state.get("forecast"),
     })
 
     # Initialize execution history

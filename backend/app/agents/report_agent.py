@@ -52,6 +52,10 @@ Return ONLY plain text.
     state["report"] = report
     memory["report"] = report
 
+    print("Analytics:", memory.get("analytics"))
+    print("Anomalies:", memory.get("anomalies"))
+    print("Root Causes:", memory.get("root_causes"))
+    print("Recommendations:", memory.get("recommendations"))
     pdf_path = generate_pdf(
     report=report,
     kpis=memory["kpis"],
@@ -60,6 +64,8 @@ Return ONLY plain text.
     root_causes=memory["root_causes"],
     recommendations=memory["recommendations"],
     executive_summary=memory.get("executive_summary"),
+    forecast=memory.get("forecast"),
+    forecast_chart=memory.get("forecast", {}).get("chart"),
     chart_path=memory.get("chart"),
     project_id=memory.get("project_id"),
     dataset=memory.get("dataset"),
