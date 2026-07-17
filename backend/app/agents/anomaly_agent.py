@@ -10,48 +10,61 @@ def anomaly_agent(state):
     print("ANOMALY AGENT")
     print("=" * 60)
 
+    analytics = state.get("analytics", {})
+
     prompt = f"""
-You are an AI Business Analyst.
+You are a Senior Business Intelligence Analyst.
 
 Dataset Type:
 {state["dataset_type"]}
 
-Business KPIs:
+Business Analytics:
+{json.dumps(analytics, indent=2)}
 
-{json.dumps(state["kpis"], indent=2)}
+Your task:
 
-Analyze these KPIs.
+1. Analyze the business metrics.
+2. Identify statistically or business-wise unusual observations.
+3. Mention only meaningful anomalies.
+4. If everything looks normal, return an empty list.
 
-Identify unusual business anomalies.
-
-Return ONLY JSON.
+Return ONLY valid JSON.
 
 Format:
 
 {{
-    "anomalies":[
+    "anomalies": [
         "...",
         "...",
         "..."
     ]
 }}
 
+Do not explain.
 Do not use markdown.
 """
 
-    result = ask_gemini(prompt)
+    response = ask_gemini(prompt)
 
-    print(result)
+    print(response)
 
-    match = re.search(r"\{.*\}", result, re.DOTALL)
+    try:
 
-    if match:
+        match = re.search(r"\{.*\}", response, re.DOTALL)
 
-        response = json.loads(match.group())
+        if match:
 
-        state["anomalies"] = response.get("anomalies", [])
+            data = json.loads(match.group())
 
-    else:
+            state["anomalies"] = data.get("anomalies", [])
+
+        else:
+
+            state["anomalies"] = []
+
+    except Exception as e:
+
+        print(e)
 
         state["anomalies"] = []
 

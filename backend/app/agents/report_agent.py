@@ -18,6 +18,10 @@ Anomalies
 
 {state["anomalies"]}
 
+Business Analytics
+
+{state["analytics"]}
+
 Root Causes
 
 {state["root_causes"]}

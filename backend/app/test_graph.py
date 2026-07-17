@@ -2,21 +2,40 @@ from graph.workflow import graph
 
 state = {
 
-    "question": "Why did sales decrease last month?",
+    "dataset_type":"sales",
 
-    "dataset": "sales",
+    "user_query":"Calculate total revenue",
 
-    "kpis": {},
+    "generated_sql":"",
 
-    "anomalies": [],
+    "query_results":[],
 
-    "root_causes": [],
+    "dataframe_info":{
 
-    "recommendations": [],
+        "Order_ID":"string",
 
-    "report": "",
+        "Date":"date",
 
-    "next_agent": ""
+        "Quantity":"int",
+
+        "Total_Revenue":"float"
+
+    },
+
+    "supervisor":{},
+
+    "kpis":{},
+
+    "kpi_analysis":{},
+
+    "anomalies":[],
+
+    "root_causes":[],
+
+    "recommendations":[],
+
+    "report":""
+
 }
 
 result = graph.invoke(state)
