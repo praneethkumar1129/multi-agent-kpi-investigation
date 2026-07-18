@@ -27,3 +27,6 @@ Thumbs.db
 # Build
 build/
 dist/
+
+credentials/
+credentials/service-account.json

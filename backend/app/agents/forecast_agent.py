@@ -4,11 +4,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from google.cloud import bigquery
 
-client = bigquery.Client()
+def get_client():
+    return bigquery.Client()
 
 
 def forecast_agent(state):
-
+    client = get_client()
     print("=" * 60)
     print("FORECAST AGENT")
     print("=" * 60)

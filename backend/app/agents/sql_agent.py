@@ -76,6 +76,12 @@ Rules:
 
     state["query_results"] = result
 
+    print("=" * 80)
+    print("SQL AGENT OUTPUT")
+    print(json.dumps(result, indent=2, default=str))
+    print("=" * 80)
+
+
     if "memory" not in state:
         state["memory"] = {}
 
